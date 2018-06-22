@@ -1,5 +1,6 @@
 package tsutlovic.com.timekeeper.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -83,7 +84,7 @@ public class ActionDb {
 
     //endregion
 
-    //region methods
+    //region Methods
 
     //gets all the events
     public ArrayList<Action> getActions(){
@@ -113,6 +114,53 @@ public class ActionDb {
 
     }
 
-    
+    public void addAction(Action action){
+
+        database = openHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(NAME, action.getName());
+        values.put(CATEGORY, action.getCategory());
+        values.put(START, action.getStart());
+        values.put(ENDT, action.getEnd());
+        values.put(NUMLINES, action.getNumLines());
+
+        long dbID = database.insert(ACTION_TABLE, null, values);
+
+        action.setDbId(dbID);
+
+        database.close();
+    }
+
+    public void deleteAction(long id){
+
+        database = openHelper.getWritableDatabase();
+
+        String where = "_id=?";
+        String[] whereArgs = new String[] {Long.toString(id)};
+
+        database.delete(ACTION_TABLE, where, whereArgs);
+
+        database.close();
+    }
+
+    public void editAction(Action action){
+
+        database = openHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(NAME, action.getName());
+        values.put(CATEGORY, action.getCategory());
+        values.put(START, action.getStart());
+        values.put(ENDT, action.getEnd());
+        values.put(NUMLINES, action.getNumLines());
+
+        String where= "_id=?";
+        String[] whereArgs = new String[] {Long.toString(action.getDbId())};
+
+        database.update(ACTION_TABLE, values, where, whereArgs);
+    }
+
+    //endregion
 
 }
