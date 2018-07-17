@@ -10,30 +10,33 @@ public class Action {
     private String start;
     private String end;
     private int numLines;
+    private boolean lines;
     private long dbId;
     //endregion
 
     //region Constructors
 
     //class constructor for event class with a database id
-    public Action(String name, String category, String start, String end, int numLines, long dbId){
+    public Action(String name, String category, String start, String end, int numLines,boolean lines,  long dbId){
         //initialization of the fields
         this.name = name;
         this.category = category;
         this.start = start;
         this.end = end;
         this.numLines = numLines;
+        this.lines = lines;
         this.dbId = dbId;
     }
 
     //class constructor for event class without a database id
-    public Action(String name, String category, String start, String end, int numLines){
+    public Action(String name, String category, String start, String end, int numLines, boolean lines){
         //initialization of the fields
         this.name = name;
         this.category = category;
         this.start = start;
         this.end = end;
         this.numLines = numLines;
+        this.lines = lines;
     }
 
     //endregion
@@ -87,6 +90,14 @@ public class Action {
 
     public void setDbId(long dbId) {
         this.dbId = dbId;
+    }
+
+    public boolean isLines() {
+        return lines;
+    }
+
+    public void setLines(boolean lines) {
+        this.lines = lines;
     }
 
     //endregion

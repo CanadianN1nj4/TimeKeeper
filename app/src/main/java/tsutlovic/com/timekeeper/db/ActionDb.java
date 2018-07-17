@@ -43,6 +43,9 @@ public class ActionDb {
     private static final String NUMLINES = "number of lines";
     private static final int NUMLINES_COLUMN = 5;
 
+    private static final String LINES = "lines";
+    private static final int LINES_COLUMN = 6;
+
     //endregion
 
     //region Database Creation
@@ -54,7 +57,8 @@ public class ActionDb {
                     CATEGORY    + " TEXT, " +
                     START       + " TEXT, " +
                     ENDT        + " TEXT, " +
-                    NUMLINES    + " INTEGER )";
+                    NUMLINES    + " INTEGER, " +
+                    LINES       + " BOOLEAN )";
 
     //endregion
 
@@ -103,8 +107,9 @@ public class ActionDb {
             String start = result.getString(START_COLUMN);
             String end = result.getString(END_COLUMN);
             int numLines = result.getInt(NUMLINES_COLUMN);
+            boolean lines = result.getInt(LINES_COLUMN)==1;
 
-            actions.add(new Action(name, category, start, end, numLines));
+            actions.add(new Action(name, category, start, end, numLines, lines));
         }
 
         result.close();
@@ -124,6 +129,7 @@ public class ActionDb {
         values.put(START, action.getStart());
         values.put(ENDT, action.getEnd());
         values.put(NUMLINES, action.getNumLines());
+        values.put(LINES, action.isLines());
 
         long dbID = database.insert(ACTION_TABLE, null, values);
 
@@ -154,6 +160,7 @@ public class ActionDb {
         values.put(START, action.getStart());
         values.put(ENDT, action.getEnd());
         values.put(NUMLINES, action.getNumLines());
+        values.put(LINES, action.isLines());
 
         String where= "_id=?";
         String[] whereArgs = new String[] {Long.toString(action.getDbId())};
